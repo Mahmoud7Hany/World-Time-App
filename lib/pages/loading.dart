@@ -15,6 +15,9 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   getData() async {
+    // بقول له هضيف القيمه بعد كده late يستخدم لعمل شرط و
+    late bool isDayTime;
+
     // api الحصول علي البيانات من
     Response response = await get(
         Uri.parse('http://worldtimeapi.org/api/timezone/Africa/Cairo'));
@@ -24,14 +27,37 @@ class _LoadingState extends State<Loading> {
     DateTime datetime = DateTime.parse(receivedData["utc_datetime"]);
     int offset = int.parse(receivedData['utc_offset'].substring(0, 3));
     DateTime realTime = datetime.add(Duration(hours: offset));
+    // print(realTime);
+    //  اضافه شرط لو بالنهار يعرض صوره ولو بليل يعرض صوره تانيه
+    if (realTime.hour > 5 && realTime.hour < 18) {
+      isDayTime = true;
+    } else {
+      isDayTime = false;
+    }
+
     // اللي وقت حقيقي اقدر استخدمه api لتنسيق الوقت ولتحويل  intl الحاصل عليه من مكتبه DateFormat بيتم استخدام
     String timeNow = DateFormat('h:mm a').format(realTime);
+
+    // يكتب ص او م يعني صباح او مساءPM او AM الكود ده الاضافه شرط بدل ما يكتب
+    // if (timeNow.endsWith('AM')) {
+    //   timeNow = timeNow.replaceAll('AM', 'ص');
+    // } else if (timeNow.endsWith('PM')) {
+    //   timeNow = timeNow.replaceAll('PM', 'م');
+    // }
+
     //  لعرض مكان التوقيت مثلا الساعه كام في القاهره [يظهر اسم المنطقه]
     String timeZone = receivedData['timezone'];
+    
+    // خاص بتغير اسم البلد بالعربي بدل الانجليزي
+    // if (timeZone == 'Africa/Cairo') {
+    //   timeZone = 'أفريقيا/القاهرة';
+    // }
+
     // Loading واحذف الصفحه اللي تحته اللي هتكون هيا صفحه HomePage هنا بقول له بعد ما تخلص الحصول علي البيانات روح لصفحه
     Navigator.pushReplacementNamed(context, '/homePage', arguments: {
       'time': timeNow,
       'location': timeZone,
+      'isDayTime': isDayTime
     });
   }
 

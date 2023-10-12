@@ -12,16 +12,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // api بعد الاستلام من Loading من الشاشة السابقة اللي هستقبلها من DATA استقبال الـ
     Map receivedData = ModalRoute.of(context)!.settings.arguments as Map;
-//  {
-//       'time': timeNow,
-//       'location': timeZone,
-//     }
+//  {    'time': timeNow, 'location': timeZone, 'isDayTime': false }
+    String bgimg = receivedData['isDayTime'] ? 'day.png' : 'night.png';
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 55, 53, 63),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 55, 53, 63),
           image: DecorationImage(
-              image: AssetImage("assets/day.png"), fit: BoxFit.cover),
+              image: AssetImage("assets/$bgimg"), fit: BoxFit.cover),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
