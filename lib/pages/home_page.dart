@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
+    // api بعد الاستلام من Loading من الشاشة السابقة اللي هستقبلها من DATA استقبال الـ
+    Map receivedData = ModalRoute.of(context)!.settings.arguments as Map;
+//  {
+//       'time': timeNow,
+//       'location': timeZone,
+//     }
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -38,18 +49,18 @@ class HomePage extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 33),
               color: const Color.fromARGB(111, 0, 0, 0),
-              child: const Column(
+              child: Column(
                 children: [
                   Text(
-                    "03:30 pm",
-                    style: TextStyle(fontSize: 55, color: Colors.white),
+                    receivedData['time'],
+                    style: const TextStyle(fontSize: 55, color: Colors.white),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 22,
                   ),
                   Text(
-                    "Egypt - Cairo",
-                    style: TextStyle(fontSize: 28, color: Colors.white),
+                    receivedData['location'],
+                    style: const TextStyle(fontSize: 28, color: Colors.white),
                   ),
                 ],
               ),
