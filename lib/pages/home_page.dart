@@ -25,7 +25,9 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () async {
+                dynamic result = await Navigator.pushNamed(context, '/location');
+              },
               icon: const Icon(
                 Icons.edit_location,
                 color: Color.fromARGB(255, 255, 129, 129),
