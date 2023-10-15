@@ -4,7 +4,13 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
-class allCountries {
+class AllCountries {
+  //  دي الحاجات اللي هتتكرر معايه كل مره اروح اجيب فيها البيانات
+  final String flag;
+  final String countryName;
+  final String link;
+  AllCountries(
+      {required this.countryName, required this.flag, required this.link});
   // بقول له هضيف القيمه بعد كده late
   late bool isDayTime;
   late String timeNow;
@@ -13,7 +19,8 @@ class allCountries {
   getData() async {
     // api الحصول علي البيانات من
     Response response = await get(
-        Uri.parse('http://worldtimeapi.org/api/timezone/Africa/Cairo'));
+        // في قائيمه لما استخدمها بجي اضغط علي اي بلد يروح يجيب المعلومات بتعته ويرجع ويعرضه علي الشاشهLocation اللي انا مخزنه في ملف api ده المكان اللي هروح اجيب منه البيانات من link
+        Uri.parse('http://worldtimeapi.org/api/timezone/$link'));
     // Map الي json لتحويل الوقت من
     Map receivedData = jsonDecode(response.body);
     // لي وقت حقيقي اقدر اتعامل معه api لتحويل الوقت الحاصل عليه من

@@ -14,7 +14,7 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   getDataLoadingPage() async {
     // class بيستخدم لاستدعاء ال
-    allCountries oneCountry = allCountries();
+    AllCountries oneCountry = AllCountries(countryName: "Egypt", flag: "egypt",link: 'Africa/Cairo');
     // علشان اقدر استدعيه بشكل ده واقدر استخدمه oneCountry في class بروح اخزن ال class بعد ما استدعيت البيانات من ال
     await oneCountry.getData();
     // وابعت معاك البيانات اللي مكتوبه فيه دي homePage بقول له بعد ما تحصل علي البيانات روح لصفحه

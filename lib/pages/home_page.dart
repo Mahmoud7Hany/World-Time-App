@@ -8,12 +8,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Map data = {};
   @override
   Widget build(BuildContext context) {
     // api بعد الاستلام من Loading من الشاشة السابقة اللي هستقبلها من DATA استقبال الـ
-    Map receivedData = ModalRoute.of(context)!.settings.arguments as Map;
+    data =
+        data.isEmpty ? ModalRoute.of(context)!.settings.arguments as Map : data;
 //  {    'time': timeNow, 'location': timeZone, 'isDayTime': false }
-    String bgimg = receivedData['isDayTime'] ? 'day.png' : 'night.png';
+    String bgimg = data['isDayTime'] ? 'day.png' : 'night.png';
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -26,7 +28,28 @@ class _HomePageState extends State<HomePage> {
           children: [
             ElevatedButton.icon(
               onPressed: () async {
-                dynamic result = await Navigator.pushNamed(context, '/location');
+                // result بستلم البيانات من الصفحه التانيه وهتتخزن في
+                dynamic result =
+                    await Navigator.pushNamed(context, '/location');
+                print(result);
+                setState(() {
+                  //  عمل شرط ان المستخدم لو عمل رجوع للصفحه السابقه بدون اختيار بلد او حدث خطا في البيانات يظهر له رساله غير كده ينفذ الكود طبيعي
+                  if (result == null) {
+                    data = {
+                      "time": "...",
+                      "location": "✋ يرجى اختيار موقع",
+                      "isDayTime": false,
+                    };
+                  } else {
+                    data = {
+                      'time': result['time'],
+                      'location': result['location'],
+                      'isDayTime': result['isDayTime'],
+                    };
+                    // طريقه اخري
+                    // data = result;
+                  }
+                });
               },
               icon: const Icon(
                 Icons.edit_location,
@@ -52,14 +75,14 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   Text(
-                    receivedData['time'],
+                    data['time'],
                     style: const TextStyle(fontSize: 55, color: Colors.white),
                   ),
                   const SizedBox(
                     height: 22,
                   ),
                   Text(
-                    receivedData['location'],
+                    data['location'],
                     style: const TextStyle(fontSize: 28, color: Colors.white),
                   ),
                 ],
